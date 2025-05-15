@@ -1,0 +1,40 @@
+.role-tile {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px 6px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    background-color: #e61a6c;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    z-index: 2;
+}
+
+.role-tile h1 {
+    font-size: 26px;
+    color: white;
+}
+
+.role-tile h3 {
+    font-size: 20px;
+    font-weight: 200;
+    color: white;
+}
+
+.role-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px 10px rgba(0, 0, 0, 0.15);
+}
+
+.role-tile-top {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.role-icon {
+    margin: 10px;
+    margin-right: 0;
+    color: white;
+}

@@ -1,0 +1,21 @@
+h1, h2, h3 {
+  font-family: var(--font-heading);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+button {
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-family: var(--font-heading);
+}
+
+.button.secondary {
+  background-color: var(--color-secondary);
+}

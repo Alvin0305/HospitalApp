@@ -1,0 +1,36 @@
+.page-wrapper {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sortable-table-head {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.sortable-table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.sortable-table-data {
+    padding: 10px;
+
+}
+
+.sortable-table-head {
+    text-align: left;
+    background-color: var(--color-tablehead);
+}
+
+.sortable-table-row:nth-child(odd) {
+    background-color: #bbb;
+}

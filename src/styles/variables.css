@@ -1,0 +1,13 @@
+:root {
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --color-primary: #007BFF;
+  --color-secondary: #6C757D;
+  --color-accent: #17A2B8;
+  --color-background: #F8F9FA;
+  --color-text: #212529;
+
+  --color-tablehead: #6c6ceb;
+}
+  

@@ -1,0 +1,49 @@
+.role-page-background-image {
+    filter: blur(10px);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.role-selector-page {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.role-selector-page-heading {
+    margin-bottom: 40px;
+    z-index: 2;
+}
+
+.role-selector-page-content {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+@media (max-width: 568px) {
+    .role-selector-page {
+        width: 80%;
+    }
+
+    .role-selector-page-content {
+        flex-direction: column;
+    }
+
+    .role-selector-page-heading {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .role-tile h1 {
+        font-size: 16px;
+    }
+
+    .role-tile h3 {
+        font-size: 12px;
+    }
+    
+}
