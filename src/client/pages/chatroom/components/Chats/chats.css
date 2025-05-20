@@ -1,3 +1,5 @@
 .chats {
     padding: 10px;
+    flex: 1;
+    box-sizing: border-box;
 }

@@ -121,11 +121,14 @@ export const getContactedUsers = async (req, res) => {
   const { id } = req.params;
 
   try {
+    console.log("here");
     const result = await pool.query(
       `SELECT DISTINCT users.* 
       FROM users
-      JOIN conversations ON users.user_id = conversations.doctor_id
-      WHERE conversations.patient_id = $1`,
+      JOIN messages ON users.user_id = messages.sender_id 
+      WHERE (messages.sender_id = $1 
+      OR messages.receiver_id = $1)
+      AND users.user_id != $1`,
       [id]
     );
     if (result.rows.length == 0) {

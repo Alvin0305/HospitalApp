@@ -1,14 +1,14 @@
 import pool from "../db.js";
 
 export const sendMessage = async (req, res) => {
-  const { conversationId, senderId, content } = req.body;
+  const { conversationId, senderId, receiverId, content } = req.body;
   try {
     const result = await pool.query(
       `
-        INSERT INTO messages (conversation_id, sender_id, content)
-        VALUES ($1, $2, $3)
+        INSERT INTO messages (conversation_id, sender_id, receiverId, content)
+        VALUES ($1, $2, $3, $4)
         RETURNING *`,
-      [conversationId, senderId, content]
+      [conversationId, senderId, receiverId, content]
     );
     await pool.query(
       `UPDATE conversations SET last_updated = NOW() WHERE conversation_id = $1`,
@@ -25,8 +25,9 @@ export const getMessagesInConversation = async (req, res) => {
   try {
     const result = await pool.query(
       `
-            SELECT * FROM messages
-            WHERE conversation_id = $1`,
+        SELECT * FROM messages
+        WHERE conversation_id = $1
+        ORDER BY timestamp`,
       [conversationId]
     );
     res.json(result.rows);

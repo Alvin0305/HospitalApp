@@ -2,18 +2,27 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import * as api from "../../../../../api";
 import UserTile from "../UserTile/UserTile";
-import "./userslist.css";
+import "./chatlist.css";
 import { FaSearch } from "react-icons/fa";
 
-const UsersList = ({ patient, setSelectedUser, selectedUser }) => {
+const ChatList = ({ user, setSelectedUser, selectedUser }) => {
   const [contactedUsers, setContactedUsers] = useState([]);
   const [allContactedUsers, setAllContactedUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    const fetchContactedUsers = async () => {
+    console.log(user);
+    console.log(user.user_id);
+    const fetchInitialValues = async () => {
       try {
-        const contactedUserResponse = await api.fetchContactedUsers(patient.id);
+        const [contactedUserResponse, allUserResponse] = await Promise.all([
+          api.fetchContactedUsers(user.user_id),
+          api.fetchAllUsers(),
+        ]);
+        const filteredAllUsers = allUserResponse.data.filter((u) => user.user_id != u.user_id);
+        console.log(filteredAllUsers);
+        setAllUsers(filteredAllUsers);
         console.log(contactedUserResponse.data);
         setContactedUsers(contactedUserResponse.data);
         setAllContactedUsers(contactedUserResponse.data);
@@ -21,7 +30,7 @@ const UsersList = ({ patient, setSelectedUser, selectedUser }) => {
         console.log("fetch conversations error", err);
       }
     };
-    fetchContactedUsers();
+    fetchInitialValues();
   }, []);
 
   const handleSearch = (e) => {
@@ -61,8 +70,19 @@ const UsersList = ({ patient, setSelectedUser, selectedUser }) => {
           />
         ))}
       </div>
+      <h4>OTHERS</h4>
+      <div>
+        {allUsers.map((user, index) => (
+          <UserTile
+            user={user}
+            key={index}
+            setSelectedUser={setSelectedUser}
+            selectedUser={selectedUser}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default UsersList;
+export default ChatList;

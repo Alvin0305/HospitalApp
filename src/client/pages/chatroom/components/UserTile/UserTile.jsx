@@ -42,7 +42,7 @@ const UserTile = ({ user, selectedUser, setSelectedUser }) => {
       onClick={select}
     >
       <img
-        src={user.gender.trim() === "M" ? "/boy.png" : "/girl.png"}
+        src={user.image}
         alt="No internet"
         width={size}
         className="chat-user-tile-image"

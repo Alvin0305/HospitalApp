@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import * as api from "../../../../../api";
 import Message from "../Message/Message";
 import "./conversation.css";
-import { FaAngleDoubleDown, FaAngleDown } from "react-icons/fa";
+import { FaAngleDown } from "react-icons/fa";
 
-const Conversation = ({ sender, conversation }) => {
+const Conversation = ({ user, conversation }) => {
   const [showMessages, setShowMessages] = useState(false);
   const [messages, setMessages] = useState([]);
 
@@ -15,8 +15,8 @@ const Conversation = ({ sender, conversation }) => {
           conversation.conversation_id
         );
         setMessages(response.data);
-        console.log(sender);
-        console.log(sender.user_id);
+        console.log(user);
+        console.log(user.user_id);
         console.log("response", response.data);
         setShowMessages(!showMessages);
       } catch (err) {
@@ -34,12 +34,13 @@ const Conversation = ({ sender, conversation }) => {
     <div onClick={handleClick} className="conversation">
       <div className="conversation-title-div">
         <h4 className="conversation-title">{conversation.title}</h4>
-        <FaAngleDown className="conversation-icon"/>
+        <FaAngleDown className="conversation-icon" />
       </div>
       {showMessages ? (
         <div>
           {messages.map((message, index) =>
-            sender.user_id === message.sender_id || sender.id === message.sender_id ? (
+            user.user_id === message.sender_id ||
+            user.id === message.sender_id ? (
               <Message message={message} key={index} sent />
             ) : (
               <Message message={message} key={index} received />

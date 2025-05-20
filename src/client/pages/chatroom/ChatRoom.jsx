@@ -1,24 +1,25 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
 import "./chatroom.css";
-import UsersList from "./components/UsersList/UsersList";
+import ChatList from "./components/ChatList/ChatList";
 import ChatBox from "./components/ChatBox/ChatBox";
+import { useUser } from "../../contexts/UserContext";
 
 const ChatRoom = () => {
-  const location = useLocation();
-  const { patient } = location.state || {};
+  const { user } = useUser();
 
   const [selectedUser, setSelectedUser] = useState({});
+
+  if (!user) return <div>Loading...</div>;
 
   return (
     <div className="chat-room-wrapper">
       <div className="chat-room">
-        <UsersList
-          patient={patient}
+        <ChatList
+          user={user}
           setSelectedUser={setSelectedUser}
           selectedUser={selectedUser}
         />
-        <ChatBox sender={patient} receiver={selectedUser} />
+        <ChatBox sender={user} receiver={selectedUser} />
       </div>
     </div>
   );

@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../auth.css";
 import * as api from "../../../../api";
 import { toast } from "react-toastify";
+import { useUser } from "../../../contexts/UserContext";
 
 const LoginPage = () => {
+  const { setUser } = useUser();
+
   const location = useLocation();
   const navigate = useNavigate();
   const { role } = location.state || "";
@@ -27,9 +30,11 @@ const LoginPage = () => {
     let response;
     try {
       response = await api.loginPatient({ ...data, role: role });
+      const loggedInUser = response.data.user;
+      setUser(loggedInUser);
       console.log(response.data);
       if (response.data.user.role === "user") {
-        navigate("/home/patient", { state: { user: response.data.user } });
+        navigate("/home/patient");
       } else if (response.data.user.role === "doctor") {
         navigate("/home/doctor", { state: { user: response.data.user } });
       } else if (response.data.user.role === "hospital_admin") {
@@ -38,6 +43,8 @@ const LoginPage = () => {
         });
       } else if (response.data.user.role === "super_admin") {
         navigate("/home/super-admin", { state: { user: response.data.user } });
+      } else {
+        toast.error("unhandled role");
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {

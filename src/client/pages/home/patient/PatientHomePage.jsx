@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ChatRoom from "../../chatroom/ChatRoom";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as api from "../../../../api";
-import Calendar from "../../../components/Calendar";
 import { FaFacebookMessenger } from "react-icons/fa";
+import { useUser } from "../../../contexts/UserContext";
 
 const PatientHomePage = () => {
-  const location = useLocation();
-  const { user } = location.state || {};
+  const { user } = useUser();
 
   const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
@@ -25,14 +23,15 @@ const PatientHomePage = () => {
     fetchDoctors();
   }, []);
 
-  const navigateToChatRoom = (doctor) => {
-    navigate("/home/patient/chat-room", {
-      state: { patient: user },
-    });
+  const navigateToChatRoom = () => {
+    navigate("/home/patient/chat-room");
   };
+
+  if (!user) return <div>Loading...</div>;
 
   return (
     <div>
+      Welcome {user.name}
       {doctors.map((doctor, index) => (
         <h4 key={index}>{doctor.name}</h4>
       ))}

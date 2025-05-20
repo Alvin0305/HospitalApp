@@ -14,36 +14,40 @@ import SuperAdminHomePage from "./client/pages/home/super_admin/SuperAdminHomePa
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ChatRoom from "./client/pages/chatroom/ChatRoom";
+import { UserProvider } from "./client/contexts/UserContext";
+import "./styles/util.css";
 
 function App() {
   return (
-    <Router>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-      <Routes>
-        <Route path="/" element={<RoleSelectorPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/home/patient" element={<PatientHomePage />} />
-        <Route path="/home/doctor" element={<DoctorHomePage />} />
-        <Route
-          path="/home/hospital-admin"
-          element={<HospitalAdminHomePage />}
+    <UserProvider>
+      <Router>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
         />
-        <Route path="/home/super-admin" element={<SuperAdminHomePage />} />
-        <Route path="/home/patient/chat-room" element={<ChatRoom />} />
-      </Routes>
-    </Router>
+        <Routes>
+          <Route path="/" element={<RoleSelectorPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/home/patient" element={<PatientHomePage />} />
+          <Route path="/home/doctor" element={<DoctorHomePage />} />
+          <Route
+            path="/home/hospital-admin"
+            element={<HospitalAdminHomePage />}
+          />
+          <Route path="/home/super-admin" element={<SuperAdminHomePage />} />
+          <Route path="/home/patient/chat-room" element={<ChatRoom />} />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 }
 

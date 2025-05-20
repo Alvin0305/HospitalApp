@@ -1,15 +1,15 @@
 import pool from "../db.js";
 
 export const startConversation = async (req, res) => {
-  const { patientId, doctorId } = req.body;
+  const { title } = req.body;
 
   try {
     const result = await pool.query(
       `
-              INSERT INTO conversations (patient_id, doctor_id)
-              VALUES ($1, $2)
-              RETURNING *`,
-      [patientId, doctorId]
+        INSERT INTO conversations (title)
+        VALUES ($1)
+        RETURNING *`,
+      [title]
     );
 
     res.json(result.rows[0]);
@@ -39,9 +39,12 @@ export const getConversationsInChat = async (req, res) => {
   try {
     const result = await pool.query(
       `
-        SELECT * FROM conversations WHERE 
-        patient_id = $1 AND doctor_id = $2
-        ORDER BY last_updated`,
+        SELECT * FROM conversations
+        WHERE conversation_id IN
+        (SELECT conversation_id FROM messages 
+        WHERE sender_id = $1 AND receiver_id = $2
+        OR sender_id = $1 AND receiver_id = $2)
+        `,
       [patientId, doctorId]
     );
     res.json(result.rows);
