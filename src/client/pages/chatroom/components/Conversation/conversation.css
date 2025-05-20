@@ -1,0 +1,29 @@
+.conversation {
+    width: 100%;
+    background-color: #111;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.conversation-title-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.conversation-title {
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.conversation-title:hover {
+    transform: scale(1.06);
+    color: var(--color-primary);
+}
+
+.conversation-icon:hover {
+    transform: scale(1.15);
+    color: var(--color-primary);
+}

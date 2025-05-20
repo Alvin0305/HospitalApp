@@ -1,0 +1,26 @@
+.chat-user-tile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.chat-user-tile:hover {
+    background-color: #111;
+}
+
+.selected-chat-user-tile {
+    border-bottom: 1px solid gray;
+}
+
+.chat-user-tile-name {
+    margin: 0;
+    margin-left: 20px;
+    text-transform: capitalize;
+}
+
+.chat-user-tile-active-status {
+    color: green;
+    margin-left: 20px;
+}

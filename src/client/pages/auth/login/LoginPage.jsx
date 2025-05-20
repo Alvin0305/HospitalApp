@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../auth.css";
 import * as api from "../../../../api";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const location = useLocation();
@@ -9,14 +10,48 @@ const LoginPage = () => {
   const { role } = location.state || "";
   const [data, setData] = useState({ email: "", password: "" });
 
+  const showPasswordsMisMatchError = () => {
+    toast.error("Password Mismatch");
+  };
+
+  const showInvalidEmailError = () => {
+    toast.error("Invalid Email");
+  };
+
+  const showInvalidPasswordError = () => {
+    toast.error("Invalid Password");
+  };
+
   const onClick = async (e) => {
     e.preventDefault();
+    let response;
     try {
-      const response = await api.loginPatient({ ...data, role: role });
+      response = await api.loginPatient({ ...data, role: role });
       console.log(response.data);
-        navigate("/home");
+      if (response.data.user.role === "user") {
+        navigate("/home/patient", { state: { user: response.data.user } });
+      } else if (response.data.user.role === "doctor") {
+        navigate("/home/doctor", { state: { user: response.data.user } });
+      } else if (response.data.user.role === "hospital_admin") {
+        navigate("/home/hospital-admin", {
+          state: { user: response.data.user },
+        });
+      } else if (response.data.user.role === "super_admin") {
+        navigate("/home/super-admin", { state: { user: response.data.user } });
+      }
     } catch (err) {
-      console.log("register error", err.message);
+      if (err.response && err.response.status === 400) {
+        const errorMessage = err.response.data.error;
+        if (errorMessage === "Invalid Email") {
+          showInvalidEmailError();
+        } else if (errorMessage === "Invalid Password") {
+          showInvalidPasswordError();
+        } else {
+          console.log("Unhandled Error:", errorMessage);
+        }
+      } else {
+        console.log("Unexpected Error:", err.message);
+      }
     }
   };
 
@@ -48,7 +83,7 @@ const LoginPage = () => {
           </button>
         </form>
         <div>
-          <p>
+          <p className="auth-text">
             Don't Have An Account
             <span onClick={gotoRegisterPage} className="auth-link">
               Sign In

@@ -7,15 +7,41 @@ import RoleSelectorPage from "./client/pages/auth/RoleSelectorPage";
 import HomePage from "./client/pages/home/HomePage";
 import LoginPage from "./client/pages/auth/login/LoginPage";
 import RegisterPage from "./client/pages/auth/register/RegisterPage";
+import PatientHomePage from "./client/pages/home/patient/PatientHomePage";
+import DoctorHomePage from "./client/pages/home/doctor/DoctorHomePage";
+import HospitalAdminHomePage from "./client/pages/home/hospital_admin/HospitalAdminHomePage";
+import SuperAdminHomePage from "./client/pages/home/super_admin/SuperAdminHomePage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ChatRoom from "./client/pages/chatroom/ChatRoom";
 
 function App() {
   return (
     <Router>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Routes>
         <Route path="/" element={<RoleSelectorPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/home/patient" element={<PatientHomePage />} />
+        <Route path="/home/doctor" element={<DoctorHomePage />} />
+        <Route
+          path="/home/hospital-admin"
+          element={<HospitalAdminHomePage />}
+        />
+        <Route path="/home/super-admin" element={<SuperAdminHomePage />} />
+        <Route path="/home/patient/chat-room" element={<ChatRoom />} />
       </Routes>
     </Router>
   );

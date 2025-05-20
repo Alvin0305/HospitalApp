@@ -1,6 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import pool from "./db.js";
+import http from "http";
+import { Server } from "socket.io";
 
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
@@ -18,9 +21,19 @@ import doctorLeaveRoutes from "./routes/doctorLeave.js";
 import hospitalBranchRoutes from "./routes/hospitalBranch.js";
 import hospitalContactRoutes from "./routes/hospitalContact.js";
 import notificationRoutes from "./routes/notification.js";
+import messageRoutes from "./routes/message.js";
+import conversationRoutes from "./routes/conversation.js";
+import loginLogRoutes from "./routes/loginLog.js";
 
 dotenv.config();
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(cors());
 app.use(express.json());
@@ -41,9 +54,50 @@ app.use("/api/doctor-leave", doctorLeaveRoutes);
 app.use("/api/hospital-branch", hospitalBranchRoutes);
 app.use("/api/hospital-contact", hospitalContactRoutes);
 app.use("/api/notification", notificationRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/conversation", conversationRoutes);
+app.use("/api/loginlog", loginLogRoutes);
 
-app.listen(5000, () => {
-  console.log("server running on http://localhost:5000");
+io.on("connection", (socket) => {
+  console.log("user connected", socket.id);
+
+  socket.on("join_conversation", (conversationId) => {
+    socket.join(`conversation_${conversationId}`);
+  });
+
+  socket.on("send_message", async (data) => {
+    const { conversationId, senderId, content } = data;
+
+    try {
+      const result = await pool.query(
+        `INSERT INTO messages (conversation_id, sender_id, content)
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+        [conversationId, senderId, content]
+      );
+
+      await pool.query(
+        `UPDATE conversations SET last_updated = NOW() WHERE conversation_id = $2`,
+        [conversationId]
+      );
+
+      io.to(`conversation_${conversationId}`).emit(
+        "receive_message",
+        result.rows[0]
+      );
+    } catch (err) {
+      console.log("error sending message", err);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected", socket.id);
+  });
+});
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`server running on http://localhost:${PORT}`);
 });
 
 // 885922865792694

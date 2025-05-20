@@ -1,0 +1,23 @@
+.message {
+    display: flex;
+    align-items: center;
+}
+
+.message-content {
+    margin: 5px;
+    padding: 10px;
+    background-color: var(--color-primary);
+    border-radius: 8px;
+    font-size: small;
+    color: white;
+    font-weight: 100;
+    max-width: 50%;
+}
+
+.sent-message {
+    justify-content: end;
+}
+
+.received-message {
+    justify-content: start;
+}

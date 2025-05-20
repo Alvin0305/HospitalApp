@@ -11,6 +11,10 @@
     color: white;
 }
 
+.auth-text {
+    font-family: var(--font-body);
+}
+
 .auth-link {
     margin-left: 10px;
     color: blueviolet;

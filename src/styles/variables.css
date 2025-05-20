@@ -1,12 +1,12 @@
 :root {
   --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-body: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;;
 
   --color-primary: #007BFF;
   --color-secondary: #6C757D;
   --color-accent: #17A2B8;
-  --color-background: #F8F9FA;
-  --color-text: #212529;
+  --color-background: black;
+  --color-text: #aaa;
 
   --color-tablehead: #6c6ceb;
 }

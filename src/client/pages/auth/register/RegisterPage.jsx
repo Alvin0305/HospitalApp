@@ -7,7 +7,7 @@ const RegisterPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { role } = location.state || "";
-  const [data, setData] = useState({ name: "", email: "", password: "" });
+  const [data, setData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
 
   const onClick = async (e) => {
     e.preventDefault();
@@ -50,12 +50,19 @@ const RegisterPage = () => {
             onChange={(e) => setData({ ...data, password: e.target.value })}
             className="auth-field"
           />
+          <input
+            type="password"
+            value={data.confirmPassword}
+            placeholder="Confirm Password..."
+            onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
+            className="auth-field"
+          />
           <button onClick={(e) => onClick(e)} className="auth-button">
             REGISTER
           </button>
         </form>
         <div>
-          <p>
+          <p className="auth-text">
             Already Have An Account
             <span onClick={gotoLoginPage} className="auth-link">
               Sign Up

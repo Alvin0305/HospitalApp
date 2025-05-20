@@ -57,10 +57,10 @@ export const getDoctorsBySpeciality = async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT * from 
-                users JOIN doctors
-                ON users.user_id = doctors.doctor_id
-                WHERE speciality = $1
-                `,
+        users JOIN doctors
+        ON users.user_id = doctors.doctor_id
+        WHERE speciality = $1
+        `,
       [speciality]
     );
     if (result.rows.length == 0)
